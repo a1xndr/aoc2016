@@ -17,6 +17,21 @@ char max(int *arr)
     }
     return 'a'+maxi;
 }
+char min(int *arr)
+{
+    int min = 30;
+    int mini = 0;
+    for(int i=0; i< 26; i++)
+    {
+        if( arr[i] < min )
+        {
+            min = arr[i];
+            mini = i;
+
+        }
+    }
+    return 'a'+mini;
+}
 main()
 {
     int letfreq[8][26] = {0};
@@ -32,6 +47,9 @@ main()
     }
     for(int i=0; i<8; i++)
         printf("%c", max(&letfreq[i][0]));
+    printf("\n");
+    for(int i=0; i<8; i++)
+        printf("%c", min(&letfreq[i][0]));
     printf("\n");
 }
 
