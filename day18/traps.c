@@ -2,17 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <stdint.h>
 typedef unsigned __int128 uint128_t;
 char input[] = "^.^^^..^^...^.^..^^^^^.....^...^^^..^^^^.^^.^^^^^^^^.^^.^^^^...^^...^^^^.^.^..^^..^..^.^^.^.^.......";
 int rows=400000-1;
-int bitcount(uint128_t n)
+int popcount(uint128_t v)
 {
-	int c =0;
-	while(n) {
-		c += n & 1;
-		n>>=1;
-	}
-	return c;
+		return __builtin_popcountll((uint64_t)(v >> 64u))
+				       + __builtin_popcountll((uint64_t)(v));
 }
 int main()
 {
@@ -29,7 +26,7 @@ int main()
 		lenones<<=1;
 		lenones |=1;
 	}
-	count += bitcount(prevrow);
+	count += popcount(prevrow);
 	while(rows)
 	{
 		rows--;	
@@ -38,7 +35,7 @@ int main()
 		row = lenones;
 		row = (prevrow & ((prevrow << 1) ^ (prevrow >> 1))) | ( ~ prevrow & ((prevrow << 1) ^ (prevrow >> 1)));
 		prevrow = (row)&lenones;
-		count += bitcount(prevrow);
+		count += popcount(prevrow);
 	}
 	printf("\n%d\n", len*trows-count);
 }
